@@ -15,7 +15,10 @@
     "tail:cache": "wrangler tail --search Cache",
     "tail:ratelimit": "wrangler tail --search 'Rate limit'",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "format": "prettier --write \"**/*.{js,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,md}\"",
+    "check": "prettier --check \"**/*.{js,json,md}\" && node cli/statenv.js validate"
   },
   "keywords": [
     "cloudflare",
@@ -27,7 +30,8 @@
   "author": "",
   "license": "Apache-2.0",
   "devDependencies": {
-    "wrangler": "^3.0.0",
-    "vitest": "^1.0.0"
+    "prettier": "^3.0.0",
+    "vitest": "^1.0.0",
+    "wrangler": "^3.0.0"
   }
 }

@@ -1,0 +1,44 @@
+{
+  "myblog": {
+    "origins": [
+      "https://myblog.com",
+      "http://localhost:3000"
+    ],
+    "apis": {
+      "weather": {
+        "url": "https://api.weatherapi.com/v1/current.json",
+        "secret": "MYBLOG_WEATHER_KEY",
+        "method": "GET",
+        "params": ["q", "lang"],
+        "cache": 600
+      },
+      "analytics": {
+        "url": "https://api.example.com/track",
+        "secret": "MYBLOG_ANALYTICS_KEY",
+        "method": "POST",
+        "bodyFields": ["event", "data", "timestamp"]
+      }
+    }
+  },
+  "myshop": {
+    "origins": [
+      "https://myshop.com",
+      "http://localhost:8080"
+    ],
+    "apis": {
+      "stripe": {
+        "url": "https://api.stripe.com/v1/payment_intents",
+        "secret": "MYSHOP_STRIPE_KEY",
+        "method": "POST",
+        "bodyFields": ["amount", "currency", "description"]
+      },
+      "inventory": {
+        "url": "https://api.myshop.com/v1/inventory",
+        "secret": "MYSHOP_INVENTORY_KEY",
+        "method": "GET",
+        "params": ["sku", "location"],
+        "cache": 300
+      }
+    }
+  }
+}
