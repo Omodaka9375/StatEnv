@@ -6,7 +6,7 @@
 
 ## 🎯 What Is StatEnv?
 
-StatEnv is a **Cloudflare Worker that proxies API requests** for your static websites. Instead of exposing API keys in your frontend code (where users can extract them), the Worker keeps secrets secure and makes API calls on your behalf.
+StatEnv is a **Cloudflare Worker that proxies API requests** for your static websites. Instead of exposing API keys in your frontend code, the Worker keeps secrets secure and makes API calls on your behalf.
 
 ### ❌ The Problem
 
