@@ -27,7 +27,7 @@
     "security",
     "static-sites"
   ],
-  "author": "",
+  "author": "branislav.djalic@gmail.com",
   "license": "Apache-2.0",
   "devDependencies": {
     "prettier": "^3.0.0",
