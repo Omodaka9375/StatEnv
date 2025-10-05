@@ -945,8 +945,6 @@ Planned for upcoming releases:
 ## See Also
 
 - [Main README](../README.md) - Project overview
-- [CLI Review](./REVIEW.md) - Detailed review and improvements
-- [Implementation Summary](../IMPLEMENTATION_SUMMARY.md) - Recent enhancements
 - [Monitoring Guide](../docs/MONITORING.md) - Monitoring and analytics
 - [Test Documentation](../tests/README.md) - Test suite information
 
