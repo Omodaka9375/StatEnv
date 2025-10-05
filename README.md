@@ -249,15 +249,23 @@ await env.post('analytics', {
 ```
 StaticEnv/
 ├── README.md              ← You are here
-├── MONITORING.md          ← Real-time monitoring guide
+├── LICENSE                ← Apache 2.0
 ├── wrangler.toml          ← Worker configuration
 ├── package.json           ← npm scripts
 │
 ├── src/
 │   └── index.js           ← Worker proxy code
 │
-└── examples/
-    └── example.html       ← Working demo
+├── docs/
+│   ├── MONITORING.md      ← Complete monitoring guide
+│   └── MONITORING_QUICK_REF.md ← Quick reference
+│
+├── examples/
+│   └── example.html       ← Working demo
+│
+└── tests/
+    ├── README.md          ← Test documentation
+    └── worker.test.js     ← Integration tests
 ```
 
 ---
@@ -280,7 +288,7 @@ wrangler tail --search "Cache"
 wrangler tail --search "Rate limit"
 ```
 
-**See [MONITORING.md](MONITORING.md) for complete guide or [MONITORING_QUICK_REF.md](MONITORING_QUICK_REF.md) for quick reference.**
+**See [docs/MONITORING.md](docs/MONITORING.md) for complete guide or [docs/MONITORING_QUICK_REF.md](docs/MONITORING_QUICK_REF.md) for quick reference.**
 
 ### Cloudflare Analytics (Free)
 

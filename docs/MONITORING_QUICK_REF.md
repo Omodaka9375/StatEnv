@@ -104,5 +104,6 @@ wrangler tail > logs.txt
 ## 🔗 Resources
 
 - Full Guide: [MONITORING.md](MONITORING.md)
+- Main README: [../README.md](../README.md)
 - Cloudflare Docs: [developers.cloudflare.com/workers/observability](https://developers.cloudflare.com/workers/observability/)
 - GraphQL API: [developers.cloudflare.com/analytics/graphql-api](https://developers.cloudflare.com/analytics/graphql-api/)
