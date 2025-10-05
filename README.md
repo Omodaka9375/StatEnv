@@ -643,6 +643,46 @@ const RATE_LIMIT = {
 
 ---
 
+## 🧩 Similar Tools & Alternatives
+
+### 1. Netlify Functions
+- **What it does:** Lets you run serverless functions alongside static sites.
+- **Similarities:** Can proxy API requests and hide secrets.
+- **Differences:** Tied to Netlify hosting; less flexible for multi-app setups.
+
+### 2. Vercel Edge Functions
+- **What it does:** Serverless functions at the edge, optimized for frontend frameworks like Next.js.
+- **Similarities:** Secure API calls, edge caching.
+- **Differences:** Strongly integrated with Vercel's ecosystem; less generic than StatEnv.
+
+### 3. AWS Lambda + API Gateway
+- **What it does:** Full serverless backend with fine-grained control.
+- **Similarities:** Secure, scalable, supports secret management.
+- **Differences:** More complex setup; not edge-native; overkill for simple static sites.
+
+### 4. Fastly Compute@Edge
+- **What it does:** Runs serverless code at Fastly's edge locations.
+- **Similarities:** Edge-native, fast, secure.
+- **Differences:** More enterprise-focused; less beginner-friendly than Cloudflare Workers.
+
+### 5. Firebase Cloud Functions
+- **What it does:** Serverless backend for Firebase apps.
+- **Similarities:** Secure API proxying possible.
+- **Differences:** Tied to Firebase ecosystem; not ideal for generic static sites.
+
+### 🔐 What Makes StatEnv Unique
+
+- ✅ **Minimal setup** - Just configure a single Worker file
+- ✅ **Multi-app support** - One Worker can serve many domains
+- ✅ **Built-in origin validation and param filtering** - Security-first design
+- ✅ **Free-tier friendly** - Cloudflare's generous limits make it ideal for indie devs
+- ✅ **Edge-native** - Global deployment with zero configuration
+- ✅ **No framework lock-in** - Works with any static site generator
+- ✅ **Simple configuration** - No complex build processes or middleware
+- ✅ **Production-ready** - Built-in rate limiting, caching, and monitoring
+
+---
+
 ## 🎯 Next Steps
 
 1. ✅ Review `src/index.js` and configure your apps
