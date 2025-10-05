@@ -88,11 +88,36 @@ statenv deploy
 
 #### `statenv init`
 
-Initialize a new StatEnv project (coming soon - for now, clone the repo).
+Shows instructions for initializing a new StatEnv project.
 
 ```bash
 statenv init
 ```
+
+**What it does:**
+- Displays setup instructions for StatEnv
+- Guides you through cloning the repository
+- Shows how to install dependencies
+- Provides next steps for configuration
+
+**Output:**
+```
+ℹ StatEnv Initialization
+
+ℹ To initialize StatEnv:
+  1. Clone the repository:
+     git clone https://github.com/yourusername/statenv.git
+
+  2. Install dependencies:
+     cd statenv && pnpm install
+
+  3. Configure your apps in src/index.js
+
+  4. Deploy:
+     pnpm run deploy
+```
+
+**Note:** This is currently a guidance command. A future version will scaffold the project automatically.
 
 #### `statenv version`
 
