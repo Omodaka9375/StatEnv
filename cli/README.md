@@ -505,7 +505,7 @@ StatEnv supports standalone configuration files:
 }
 ```
 
-See `.statenvrc.example` for a complete example with multiple apps.
+See `statenv.config.json` for a complete example with multiple apps.
 
 ### Future Features
 
