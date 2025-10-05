@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StatEnv - Secure API Proxy Example</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 900px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .section {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .code {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      font-size: 14px;
+    }
+    button {
+      background: #0066cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 5px;
+    }
+    button:hover {
+      background: #0052a3;
+    }
+    .success {
+      color: #28a745;
+      background: #d4edda;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .error {
+      color: #d32f2f;
+      background: #ffebee;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    .status {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .security-note {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 15px;
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔐 StatEnv - Secure API Proxy</h1>
+  
+  <div class="security-note">
+    <strong>✅ Actually Secure!</strong><br>
+    Your API keys never leave the Cloudflare Worker. All API calls are proxied through the Worker, 
+    keeping secrets on the server where they belong. Users can't extract them from the browser!
+  </div>
+
+  <!-- Step 1: Call Weather API -->\
+  <div class="section">
+    <h2>Example 1: Weather API (GET Request)</h2>
+    <p>Call a weather API through the StatEnv proxy:</p>
+    <button onclick="callWeatherAPI()">Get London Weather</button>
+    <div id="weather-status"></div>
+  </div>
+
+  <!-- Step 2: Analytics API -->
+  <div class="section">
+    <h2>Example 2: Analytics API (POST Request)</h2>
+    <p>Send analytics data through the proxy:</p>
+    <button onclick="sendAnalytics()">Send Analytics Event</button>
+    <div id="analytics-status"></div>
+  </div>
+
+  <!-- Step 3: How It Works -->
+  <div class="section">
+    <h2>How It Works</h2>
+    <button onclick="showCodeExample()">Show Code Example</button>
+    <div id="code-example"></div>
+  </div>
+
+  <script type="module">
+    // Configuration - Update with your Worker URL
+    const WORKER_URL = 'https://statenv.yourname.workers.dev';
+    const APP_NAME = 'myblog';
+
+    window.callWeatherAPI = async function() {
+      const statusDiv = document.getElementById('weather-status');
+      statusDiv.innerHTML = '<p class="status">Calling Weather API through proxy...</p>';
+
+      try {
+        // Call the Worker proxy endpoint with plain fetch
+        // Worker adds the secret API key and calls the real API
+        const response = await fetch(`${WORKER_URL}/${APP_NAME}/weather?q=London`);
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Request failed');
+        }
+        
+        statusDiv.innerHTML = `
+          <div class="success">
+            ✅ Weather API called successfully!<br>
+            <strong>${data.location.name}:</strong> ${data.current.temp_c}°C, ${data.current.condition.text}<br>
+            <small>Your API key never left the Worker server! 🔒</small>
+          </div>
+        `;
+
+      } catch (error) {
+        statusDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+      }
+    };
+
+    window.sendAnalytics = async function() {
+      const statusDiv = document.getElementById('analytics-status');
+      statusDiv.innerHTML = '<p class="status">Sending analytics through proxy...</p>';
+
+      try {
+        // POST request through proxy with plain fetch
+        const response = await fetch(`${WORKER_URL}/${APP_NAME}/analytics`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            event: 'button_click',
+            data: { page: 'example', timestamp: Date.now() }
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Request failed');
+        }
+        
+        statusDiv.innerHTML = `
+          <div class="success">
+            ✅ Analytics sent successfully!<br>
+            <small>Your API key never left the Worker server! 🔒</small>
+          </div>
+        `;
+
+      } catch (error) {
+        statusDiv.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+      }
+    };
+
+    window.showCodeExample = function() {
+      const exampleDiv = document.getElementById('code-example');
+      
+      exampleDiv.innerHTML = `
+<div class="code">// Configuration
+const WORKER_URL = 'https://statenv.yourname.workers.dev';
+const APP_NAME = 'myblog';
+
+// GET request with query params
+// Client calls Worker proxy
+const response = await fetch(\`\${WORKER_URL}/\${APP_NAME}/weather?q=London\`);
+const weather = await response.json();
+console.log(weather.current.temp_c);
+
+// Worker receives request, adds secret key, calls real API:
+// api.weatherapi.com/v1/current.json?key=SECRET&q=London
+
+// POST request with body
+const analyticsResponse = await fetch(\`\${WORKER_URL}/\${APP_NAME}/analytics\`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    event: 'button_click',
+    data: { timestamp: Date.now() }
+  })
+});
+
+const result = await analyticsResponse.json();
+
+// 🔒 Your API keys NEVER leave the Cloudflare Worker
+// 🚀 Users can't extract secrets from DevTools
+// ✅ Actually secure! Not just security theater
+// 📦 No library needed - just plain fetch!</div>
+      `;
+    };
+  </script>
+</body>
+</html>

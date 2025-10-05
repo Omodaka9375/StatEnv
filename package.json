@@ -1,0 +1,30 @@
+{
+  "name": "statenv",
+  "version": "1.0.0",
+  "description": "Secure Cloudflare Worker for environment variable proxy",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail",
+    "tail:errors": "wrangler tail --status error",
+    "tail:cache": "wrangler tail --search Cache",
+    "tail:ratelimit": "wrangler tail --search 'Rate limit'",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "environment-variables",
+    "security",
+    "static-sites"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "wrangler": "^3.0.0",
+    "vitest": "^1.0.0"
+  }
+}

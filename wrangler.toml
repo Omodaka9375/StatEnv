@@ -1,0 +1,39 @@
+name = "statenv"
+main = "src/index.js"
+compatibility_date = "2025-10-04"
+
+# Worker configuration
+# See: https://developers.cloudflare.com/workers/wrangler/configuration/
+
+# ⚠️ NEVER PUT SECRETS IN THIS FILE!
+# Secrets are managed separately via Wrangler CLI
+#
+# Set secrets using the naming convention: {APPNAME}_{SECRETNAME}
+# Examples:
+#   wrangler secret put MYBLOG_WEATHER_KEY
+#   wrangler secret put MYBLOG_ANALYTICS_KEY
+#   wrangler secret put MYSHOP_STRIPE_KEY
+#
+# List secrets: wrangler secret list
+# Delete secret: wrangler secret delete SECRETNAME
+
+# Optional: Custom domain
+# Uncomment and configure to use your own domain instead of workers.dev
+# routes = [
+#   { pattern = "api.yourdomain.com/*", zone_name = "yourdomain.com" }
+# ]
+
+# Optional: Staging environment
+# Uncomment to create a separate staging deployment
+# [env.staging]
+# name = "statenv-staging"
+# 
+# Set staging secrets:
+#   wrangler secret put MYBLOG_WEATHER_KEY --env staging
+#
+# Deploy to staging:
+#   wrangler deploy --env staging
+
+# Optional: Production environment (if using explicit env names)
+# [env.production]
+# name = "statenv-prod"
