@@ -14,7 +14,7 @@ Traditional approaches expose secrets in the browser:
 
 ```js
 // INSECURE: Anyone can steal this from DevTools!
-const apiKey = 'sk_live_abc123';  
+const apiKey = 'sk_live_abc123';
 const data = await fetch(`https://api.example.com?key=${apiKey}`);
 ```
 
@@ -79,17 +79,17 @@ const APP_CONFIG = {
         url: 'https://api.weatherapi.com/v1/current.json',
         secret: 'MYBLOG_WEATHER_KEY',
         method: 'GET',
-        params: ['q'],  // Allowed query params
-        cache: 300      // Cache for 5 minutes
+        params: ['q'], // Allowed query params
+        cache: 300, // Cache for 5 minutes
       },
       analytics: {
         url: 'https://api.example.com/track',
         secret: 'MYBLOG_ANALYTICS_KEY',
         method: 'POST',
-        bodyFields: ['event', 'data']  // Allowed body fields
-      }
-    }
-  }
+        bodyFields: ['event', 'data'], // Allowed body fields
+      },
+    },
+  },
 };
 ```
 
@@ -115,12 +115,12 @@ Just use plain `fetch` - no library needed!
 <script>
   const WORKER_URL = 'https://statenv.yourname.workers.dev';
   const APP_NAME = 'myblog';
-  
+
   // GET request
   const response = await fetch(`${WORKER_URL}/${APP_NAME}/weather?q=London`);
   const weather = await response.json();
   console.log(weather.current.temp_c);
-  
+
   // POST request
   await fetch(`${WORKER_URL}/${APP_NAME}/analytics`, {
     method: 'POST',
@@ -138,17 +138,21 @@ Just use plain `fetch` - no library needed!
 ## 🔒 How It Works
 
 ### Traditional Approach (INSECURE)
+
 ```
 Browser → External API (with exposed secret) ❌
 ```
+
 - Secrets bundled in JavaScript
 - Users can extract from DevTools/localStorage
 - XSS attacks can steal secrets
 
 ### StatEnv Approach (SECURE)
+
 ```
 Browser → StatEnv Worker → External API (with secret) ✅
 ```
+
 - Secrets stay on Cloudflare Worker
 - Users never see the API keys
 - Origin validation prevents abuse
@@ -167,15 +171,15 @@ Browser → StatEnv Worker → External API (with secret) ✅
 
 ### vs Traditional .env Files
 
-| Feature | .env (Bundled) | StatEnv Proxy |
-|---------|----------------|---------------|
-| **Secrets in browser** | ❌ Yes (bundled) | ✅ No (server-only) |
-| **Extractable by users** | ❌ Yes | ✅ No |
-| **Rotate without rebuild** | ❌ No | ✅ Yes |
-| **Origin validation** | ❌ No | ✅ Yes |
-| **Rate limiting** | ❌ No | ✅ Yes (built-in) |
-| **Edge caching** | ❌ No | ✅ Yes (global) |
-| **Actually secure** | ❌ No | ✅ Yes |
+| Feature                    | .env (Bundled)   | StatEnv Proxy       |
+| -------------------------- | ---------------- | ------------------- |
+| **Secrets in browser**     | ❌ Yes (bundled) | ✅ No (server-only) |
+| **Extractable by users**   | ❌ Yes           | ✅ No               |
+| **Rotate without rebuild** | ❌ No            | ✅ Yes              |
+| **Origin validation**      | ❌ No            | ✅ Yes              |
+| **Rate limiting**          | ❌ No            | ✅ Yes (built-in)   |
+| **Edge caching**           | ❌ No            | ✅ Yes (global)     |
+| **Actually secure**        | ❌ No            | ✅ Yes              |
 
 ### Key Advantages
 
@@ -199,18 +203,18 @@ Browser → StatEnv Worker → External API (with secret) ✅
 ```js
 const APP_CONFIG = {
   appName: {
-    origins: ['https://yourdomain.com'],  // Allowed domains
+    origins: ['https://yourdomain.com'], // Allowed domains
     apis: {
       apiName: {
-        url: 'https://api.external.com/endpoint',  // Real API URL
-        secret: 'APPNAME_SECRETNAME',              // Wrangler secret name
-        method: 'GET',                             // or 'POST'
-        params: ['param1', 'param2'],              // Allowed query params (GET)
-        bodyFields: ['field1', 'field2'],          // Allowed body fields (POST)
-        cache: 300                                 // Cache seconds (optional)
-      }
-    }
-  }
+        url: 'https://api.external.com/endpoint', // Real API URL
+        secret: 'APPNAME_SECRETNAME', // Wrangler secret name
+        method: 'GET', // or 'POST'
+        params: ['param1', 'param2'], // Allowed query params (GET)
+        bodyFields: ['field1', 'field2'], // Allowed body fields (POST)
+        cache: 300, // Cache seconds (optional)
+      },
+    },
+  },
 };
 ```
 
@@ -241,6 +245,7 @@ apis: {
 ```
 
 Client usage:
+
 ```js
 await env.get('weather', { q: 'London', lang: 'en' });
 // Worker calls: api.weatherapi.com?key=SECRET&q=London&lang=en
@@ -260,11 +265,12 @@ apis: {
 ```
 
 Client usage:
+
 ```js
 await env.post('analytics', {
   event: 'button_click',
   data: { button: 'signup' },
-  timestamp: Date.now()
+  timestamp: Date.now(),
 });
 ```
 
@@ -316,6 +322,7 @@ wrangler tail --search "Rate limit"
 ### Cloudflare Analytics (Free)
 
 View detailed analytics in Cloudflare Dashboard:
+
 - Dashboard → Workers & Pages → statenv → Analytics
 - Request volume, error rates, response times
 - Geographic distribution, status codes
@@ -343,7 +350,7 @@ pnpm run test:watch
 - ✅ Route validation (404 for unknown)
 - ✅ Rate limiting (429 after limit)
 - ✅ CORS handling (OPTIONS preflight)
-- ✅ Response headers (X-StatEnv-*, X-RateLimit-*)
+- ✅ Response headers (X-StatEnv-_, X-RateLimit-_)
 - ✅ Error handling (proper JSON errors)
 
 See [tests/README.md](tests/README.md) for details.
@@ -408,11 +415,11 @@ await fetch(`${WORKER_URL}/${APP_NAME}/analytics`, {
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({
     event: 'page_view',
-    data: { 
+    data: {
       page: window.location.pathname,
-      timestamp: Date.now()
-    }
-  })
+      timestamp: Date.now(),
+    },
+  }),
 });
 ```
 
@@ -420,16 +427,16 @@ await fetch(`${WORKER_URL}/${APP_NAME}/analytics`, {
 
 ```js
 // Call different endpoints
-const weather = await fetch(`${WORKER_URL}/${APP_NAME}/weather?q=London`)
-  .then(r => r.json());
-  
-const forecast = await fetch(`${WORKER_URL}/${APP_NAME}/forecast?q=London&days=3`)
-  .then(r => r.json());
+const weather = await fetch(`${WORKER_URL}/${APP_NAME}/weather?q=London`).then((r) => r.json());
+
+const forecast = await fetch(`${WORKER_URL}/${APP_NAME}/forecast?q=London&days=3`).then((r) =>
+  r.json()
+);
 
 await fetch(`${WORKER_URL}/${APP_NAME}/analytics`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ event: 'api_call' })
+  body: JSON.stringify({ event: 'api_call' }),
 });
 ```
 
@@ -451,11 +458,13 @@ apis: {
 ```
 
 **How it works:**
+
 1. **First request**: Worker → External API → Cache + Return
 2. **Subsequent requests**: Worker → Cache → Return (instant!)
 3. **After cache expires**: Repeat from step 1
 
 **Benefits:**
+
 - ✅ **Reduces API calls** - Save money on external API usage
 - ✅ **Faster responses** - Cached responses return instantly
 - ✅ **Global edge cache** - Shared across all Cloudflare regions
@@ -463,12 +472,14 @@ apis: {
 - ✅ **Free** - Cloudflare Cache API is included
 
 **Cache headers:**
+
 ```
 X-Cache: HIT   (from cache)
 X-Cache: MISS  (fetched from API)
 ```
 
 **Disable caching:**
+
 ```js
 apis: {
   realtime: {
@@ -489,14 +500,15 @@ Built-in rate limiting prevents abuse and protects your API quotas:
 ```js
 // Configure in src/index.js
 const RATE_LIMIT = {
-  maxRequests: 100,      // Maximum requests per window
-  windowMs: 60000,       // Time window (1 minute)
-  perIP: true,           // Rate limit per IP (recommended)
-  perApp: false          // Or rate limit per app
+  maxRequests: 100, // Maximum requests per window
+  windowMs: 60000, // Time window (1 minute)
+  perIP: true, // Rate limit per IP (recommended)
+  perApp: false, // Or rate limit per app
 };
 ```
 
 **Features:**
+
 - ✅ **Per-IP rate limiting** - Each IP gets its own quota
 - ✅ **Standard headers** - Returns `X-RateLimit-*` headers
 - ✅ **429 responses** - Clear "Too Many Requests" errors
@@ -504,6 +516,7 @@ const RATE_LIMIT = {
 - ✅ **Auto-cleanup** - Expired entries removed automatically
 
 **Response headers:**
+
 ```
 X-RateLimit-Limit: 100
 X-RateLimit-Remaining: 95
@@ -520,8 +533,8 @@ myblog: {
   origins: [
     'https://myblog.com',
     'https://www.myblog.com',
-    'http://localhost:3000'  // For development
-  ]
+    'http://localhost:3000', // For development
+  ];
 }
 ```
 
@@ -532,7 +545,7 @@ Requests from other domains get a 403 Forbidden response.
 Only specified parameters are forwarded:
 
 ```js
-params: ['q', 'lang']  // Other params are ignored
+params: ['q', 'lang']; // Other params are ignored
 ```
 
 Prevents clients from injecting malicious parameters.
@@ -542,7 +555,7 @@ Prevents clients from injecting malicious parameters.
 Only allowed fields in POST bodies:
 
 ```js
-bodyFields: ['event', 'data']  // Other fields stripped
+bodyFields: ['event', 'data']; // Other fields stripped
 ```
 
 Protects against injection attacks.
@@ -588,7 +601,7 @@ A: Example: Weather API costs $0.0001 per request. Without caching, 10,000 reque
 Check that your domain is in the `origins` array:
 
 ```js
-origins: ['https://yourdomain.com', 'http://localhost:3000']
+origins: ['https://yourdomain.com', 'http://localhost:3000'];
 ```
 
 ### "Configuration error"
@@ -629,8 +642,8 @@ To adjust limits, edit `RATE_LIMIT` in `src/index.js`:
 
 ```js
 const RATE_LIMIT = {
-  maxRequests: 200,   // Increase limit
-  windowMs: 60000     // Keep 1 minute window
+  maxRequests: 200, // Increase limit
+  windowMs: 60000, // Keep 1 minute window
 };
 ```
 
@@ -639,26 +652,31 @@ const RATE_LIMIT = {
 ## 🧩 Similar Tools & Alternatives
 
 ### 1. Netlify Functions
+
 - **What it does:** Lets you run serverless functions alongside static sites.
 - **Similarities:** Can proxy API requests and hide secrets.
 - **Differences:** Tied to Netlify hosting; less flexible for multi-app setups.
 
 ### 2. Vercel Edge Functions
+
 - **What it does:** Serverless functions at the edge, optimized for frontend frameworks like Next.js.
 - **Similarities:** Secure API calls, edge caching.
 - **Differences:** Strongly integrated with Vercel's ecosystem; less generic than StatEnv.
 
 ### 3. AWS Lambda + API Gateway
+
 - **What it does:** Full serverless backend with fine-grained control.
 - **Similarities:** Secure, scalable, supports secret management.
 - **Differences:** More complex setup; not edge-native; overkill for simple static sites.
 
 ### 4. Fastly Compute@Edge
+
 - **What it does:** Runs serverless code at Fastly's edge locations.
 - **Similarities:** Edge-native, fast, secure.
 - **Differences:** More enterprise-focused; less beginner-friendly than Cloudflare Workers.
 
 ### 5. Firebase Cloud Functions
+
 - **What it does:** Serverless backend for Firebase apps.
 - **Similarities:** Secure API proxying possible.
 - **Differences:** Tied to Firebase ecosystem; not ideal for generic static sites.

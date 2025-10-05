@@ -25,33 +25,39 @@ pnpm run test:watch
 ## Test Coverage
 
 ### ✅ Origin Validation
+
 - Blocks unauthorized origins (403)
 - Allows authorized origins
 - Validates origin headers
 
 ### ✅ Route Validation
+
 - Invalid routes return 404
 - Unknown apps return 404
 - Unknown API endpoints return 404
 - Proper error messages
 
 ### ✅ Rate Limiting
+
 - Enforces max requests per window (100/min)
 - Returns 429 after limit exceeded
 - Includes rate limit headers
 - Returns Retry-After header on 429
 
 ### ✅ CORS
+
 - Handles OPTIONS preflight requests
 - Returns proper CORS headers
 - Supports GET and POST methods
 
 ### ✅ Response Headers
+
 - Includes StatEnv metadata (X-StatEnv-App, X-StatEnv-API)
 - Includes cache headers (Cache-Control, X-Cache)
-- Includes rate limit headers (X-RateLimit-*)
+- Includes rate limit headers (X-RateLimit-\*)
 
 ### ✅ Error Handling
+
 - Returns proper error JSON format
 - Handles missing secrets gracefully
 - Returns appropriate status codes
@@ -109,15 +115,18 @@ jobs:
 ## Troubleshooting
 
 ### Tests Hang
+
 - Check if Worker port (8787) is already in use
 - Kill any running `wrangler dev` processes
 
 ### Rate Limit Tests Fail
+
 - Rate limits use in-memory storage
 - Tests run fast, may hit limits in unexpected order
 - Tests verify behavior exists, not exact count
 
 ### External API Errors
+
 - Expected! Tests don't call real external APIs
 - Focus on Worker logic (origin, rate limit, routing)
 - Mock external APIs if needed (future enhancement)

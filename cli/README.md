@@ -95,12 +95,14 @@ statenv init
 ```
 
 **What it does:**
+
 - Displays setup instructions for StatEnv
 - Guides you through cloning the repository
 - Shows how to install dependencies
 - Provides next steps for configuration
 
 **Output:**
+
 ```
 ℹ StatEnv Initialization
 
@@ -132,6 +134,7 @@ statenv -v
 ```
 
 **Output:**
+
 ```
 statenv v1.0.0
 ```
@@ -145,6 +148,7 @@ statenv v1.0.0
 **Interactively add a new app configuration.**
 
 This wizard will guide you through:
+
 1. App name
 2. Allowed origins
 3. API endpoints (URL, method, params)
@@ -156,6 +160,7 @@ statenv add-app
 ```
 
 **Example session:**
+
 ```
 ℹ Add New App
 
@@ -206,6 +211,7 @@ statenv validate
 ```
 
 **Output:**
+
 ```
 ℹ Validating configuration...
 
@@ -216,6 +222,7 @@ statenv validate
 ```
 
 **With errors:**
+
 ```
 ✗ Configuration has errors
 
@@ -229,6 +236,7 @@ Warnings:
 ```
 
 **Validates:**
+
 - App names (alphanumeric, hyphens, underscores)
 - Origin URLs (valid URLs starting with http/https)
 - API URLs (valid URLs)
@@ -250,6 +258,7 @@ statenv list-apps
 ```
 
 **Output:**
+
 ```
 ℹ Listing apps...
 
@@ -269,6 +278,7 @@ statenv list-apps
 ```
 
 **Use cases:**
+
 - Quick overview of your configuration
 - See which apps are configured
 - Count APIs and origins per app
@@ -285,6 +295,7 @@ statenv remove-app
 ```
 
 **Workflow:**
+
 ```
 ⚠ Remove App
 
@@ -309,6 +320,7 @@ Are you sure you want to remove "myblog"? (y/N): y
 ```
 
 **Note:** This command provides guidance but doesn't automatically edit files. You need to manually:
+
 1. Remove the app section from `src/index.js`
 2. Delete the associated secrets using the provided commands
 
@@ -325,12 +337,14 @@ statenv deploy
 ```
 
 **Automatically:**
+
 1. Validates configuration
 2. Checks for errors
 3. Prevents deployment if validation fails
 4. Deploys only if everything is valid
 
 **Output:**
+
 ```
 ℹ Deploying StatEnv Worker
 
@@ -342,6 +356,7 @@ statenv deploy
 ```
 
 **If validation fails:**
+
 ```
 ✗ Configuration has errors. Fix them before deploying:
   ✗ myblog: invalid origin URL: htp://localhost
@@ -361,6 +376,7 @@ statenv deploy --dry-run
 ```
 
 **Output:**
+
 ```
 ℹ Dry Run: Deploy StatEnv Worker
 
@@ -377,6 +393,7 @@ statenv deploy --dry-run
 ```
 
 **Features:**
+
 - Validates configuration before showing dry-run
 - Shows what would be deployed
 - Safe way to check everything before actual deployment
@@ -395,6 +412,7 @@ statenv secrets list
 ```
 
 **Output:**
+
 ```
 ℹ Listing secrets...
 
@@ -415,6 +433,7 @@ statenv secrets add
 ```
 
 **Example:**
+
 ```
 Secret name (e.g., MYBLOG_WEATHER_KEY): MYBLOG_WEATHER_KEY
 ? Enter a secret value: ********
@@ -434,6 +453,7 @@ statenv tail
 ```
 
 **Output:**
+
 ```
 ℹ Starting real-time log tail...
 Press Ctrl+C to stop
@@ -444,6 +464,7 @@ GET https://statenv.yourname.workers.dev/myblog/weather?q=London
 ```
 
 **Equivalent to:**
+
 ```bash
 wrangler tail
 ```
@@ -459,6 +480,7 @@ statenv test
 ```
 
 **Output:**
+
 ```
 ℹ Running tests...
 
@@ -507,10 +529,7 @@ StatEnv supports standalone configuration files:
 ```json
 {
   "myblog": {
-    "origins": [
-      "https://myblog.com",
-      "http://localhost:3000"
-    ],
+    "origins": ["https://myblog.com", "http://localhost:3000"],
     "apis": {
       "weather": {
         "url": "https://api.weatherapi.com/v1/current.json",
@@ -535,6 +554,7 @@ See `statenv.config.json` for a complete example with multiple apps.
 ### Future Features
 
 **Coming soon:**
+
 - Generate config from existing `src/index.js`
 - Import config file into `src/index.js`
 - Sync config between file and worker
@@ -545,41 +565,50 @@ See `statenv.config.json` for a complete example with multiple apps.
 ## Validation Rules
 
 ### App Names
+
 - Must start with a letter
 - Can contain: letters, numbers, hyphens, underscores
 - Examples: `myblog`, `my-shop`, `app_123`
 
 ### Origin URLs
+
 - Must be valid URLs
 - Must start with `http://` or `https://`
 - Examples: `https://myblog.com`, `http://localhost:3000`
 
 ### API Names
+
 - Must start with a letter
 - Can contain: letters, numbers, underscores
 - Examples: `weather`, `stripe_v1`, `analytics2`
 
 ### API URLs
+
 - Must be valid URLs
 - Must start with `http://` or `https://`
 
 ### Secret Names
+
 - Should be UPPERCASE_WITH_UNDERSCORES
 - Examples: `MYBLOG_WEATHER_KEY`, `APP_API_SECRET`
 
 ### HTTP Methods
+
 - Supported: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`
 - Case-insensitive
 
 ### Params (for GET requests)
+
 - Must be an array of strings
 - Example: `["q", "lang", "limit"]`
 
 ### Body Fields (for POST/PUT/PATCH)
+
 - Must be an array of strings
 - Example: `["event", "data", "timestamp"]`
 
 ### Cache Duration
+
 - Must be a positive number (seconds)
 - 0 = no cache
 - Example: `300` (5 minutes), `600` (10 minutes)
@@ -613,11 +642,13 @@ pnpm run check
 ```
 
 Equivalent to:
+
 ```bash
 pnpm run format:check && statenv validate
 ```
 
 **Use in CI/CD:**
+
 ```yaml
 - name: Check code quality
   run: pnpm run check
@@ -628,6 +659,7 @@ pnpm run format:check && statenv validate
 The project includes Prettier for consistent code formatting:
 
 **`.prettierrc`:**
+
 ```json
 {
   "semi": true,
@@ -668,6 +700,7 @@ statenv add-app
 ```
 
 Follow the prompts to configure:
+
 - App name: `myblog`
 - Origins: `https://myblog.com`
 - API: `weather` → `https://api.weatherapi.com/...`
@@ -714,6 +747,7 @@ statenv tail
 ### Enhanced Workflow (Recommended)
 
 #### Development
+
 ```bash
 # Add new app
 statenv add-app
@@ -729,6 +763,7 @@ pnpm run dev
 ```
 
 #### Pre-Deployment
+
 ```bash
 # Full check
 pnpm run check
@@ -740,6 +775,7 @@ statenv deploy --dry-run
 ```
 
 #### Deployment
+
 ```bash
 # Deploy (now with automatic validation)
 statenv deploy
@@ -749,6 +785,7 @@ statenv tail
 ```
 
 #### Maintenance
+
 ```bash
 # List all apps
 statenv list-apps
@@ -802,6 +839,7 @@ statenv test && statenv deploy
 ### "Wrangler not found"
 
 Install Wrangler globally:
+
 ```bash
 npm install -g wrangler
 ```
@@ -809,6 +847,7 @@ npm install -g wrangler
 ### "Not logged in to Cloudflare"
 
 Login first:
+
 ```bash
 wrangler login
 ```
@@ -816,6 +855,7 @@ wrangler login
 ### "Command failed"
 
 Enable verbose output:
+
 ```bash
 # Use wrangler directly for more details
 wrangler deploy --verbose
@@ -824,6 +864,7 @@ wrangler deploy --verbose
 ### CLI not working after install
 
 Make sure npm global bin is in PATH:
+
 ```bash
 # Check npm global bin path
 npm config get prefix
@@ -870,30 +911,30 @@ case 'mynew':
 
 ### Enhanced Commands
 
-| Command | Before | After |
-|---------|--------|-------|
-| `add-app` | Basic validation | URL validation, better error messages |
-| `deploy` | Direct deploy | Pre-deployment validation, dry-run mode |
-| `secrets add` | Basic | Secret name format validation |
-| `test` | Fixed npm | Auto-detects pnpm/npm |
+| Command       | Before           | After                                   |
+| ------------- | ---------------- | --------------------------------------- |
+| `add-app`     | Basic validation | URL validation, better error messages   |
+| `deploy`      | Direct deploy    | Pre-deployment validation, dry-run mode |
+| `secrets add` | Basic            | Secret name format validation           |
+| `test`        | Fixed npm        | Auto-detects pnpm/npm                   |
 
 ### New Commands
 
-| Command | Description |
-|---------|-------------|
-| `validate` | Validate configuration |
-| `list-apps` | List all configured apps |
-| `remove-app` | Remove app (with guidance) |
-| `deploy --dry-run` | Preview deployment |
-| `version` | Show CLI version |
+| Command            | Description                |
+| ------------------ | -------------------------- |
+| `validate`         | Validate configuration     |
+| `list-apps`        | List all configured apps   |
+| `remove-app`       | Remove app (with guidance) |
+| `deploy --dry-run` | Preview deployment         |
+| `version`          | Show CLI version           |
 
 ### New Scripts
 
-| Script | Description |
-|--------|-------------|
-| `pnpm run format` | Format code with Prettier |
-| `pnpm run format:check` | Check code formatting |
-| `pnpm run check` | Full validation (format + config) |
+| Script                  | Description                       |
+| ----------------------- | --------------------------------- |
+| `pnpm run format`       | Format code with Prettier         |
+| `pnpm run format:check` | Check code formatting             |
+| `pnpm run check`        | Full validation (format + config) |
 
 ### Bug Fixes
 
@@ -912,18 +953,21 @@ case 'mynew':
 Planned for upcoming releases:
 
 1. **Config Generation**
+
    ```bash
    statenv export-config    # src/index.js → .statenvrc
    statenv import-config    # .statenvrc → src/index.js
    ```
 
 2. **Template System**
+
    ```bash
    statenv add-api --template stripe
    statenv add-api --template openai
    ```
 
 3. **Environment Management**
+
    ```bash
    statenv use staging
    statenv use production
@@ -931,6 +975,7 @@ Planned for upcoming releases:
    ```
 
 4. **Doctor Command**
+
    ```bash
    statenv doctor    # Check configuration, secrets, deployment
    ```
@@ -950,4 +995,4 @@ Planned for upcoming releases:
 
 ---
 
-*Last updated: 2025-10-05*
+_Last updated: 2025-10-05_

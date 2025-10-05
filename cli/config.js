@@ -11,11 +11,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Config file locations
-const CONFIG_FILES = [
-  '.statenvrc',
-  'statenv.config.json',
-  '.statenv.json',
-];
+const CONFIG_FILES = ['.statenvrc', 'statenv.config.json', '.statenv.json'];
 
 /**
  * Find and read the config file
@@ -53,17 +49,17 @@ export function writeConfig(config, filename = '.statenvrc') {
  */
 export function readWorkerConfig() {
   const workerPath = join(process.cwd(), 'src', 'index.js');
-  
+
   if (!existsSync(workerPath)) {
     return null;
   }
 
   try {
     const content = readFileSync(workerPath, 'utf-8');
-    
+
     // Extract APP_CONFIG using regex
     const configMatch = content.match(/const\s+APP_CONFIG\s*=\s*({[\s\S]*?});/);
-    
+
     if (!configMatch) {
       return null;
     }
@@ -71,20 +67,16 @@ export function readWorkerConfig() {
     // Parse the config (this is a simplified approach)
     // In production, you might want to use a proper JS parser
     const configStr = configMatch[1];
-    
+
     // Remove comments
-    const cleanedConfig = configStr
-      .replace(/\/\/.*$/gm, '')
-      .replace(/\/\*[\s\S]*?\*\//g, '');
-    
+    const cleanedConfig = configStr.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+
     // Try to parse as JSON-like structure
     // This is a hack - better to use actual JS parser
     try {
       // Replace single quotes with double quotes
-      const jsonStr = cleanedConfig
-        .replace(/'/g, '"')
-        .replace(/(\w+):/g, '"$1":');
-      
+      const jsonStr = cleanedConfig.replace(/'/g, '"').replace(/(\w+):/g, '"$1":');
+
       return JSON.parse(jsonStr);
     } catch {
       // If direct parsing fails, return raw match for validation purposes

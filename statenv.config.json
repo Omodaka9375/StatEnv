@@ -1,9 +1,6 @@
 {
   "myblog": {
-    "origins": [
-      "https://myblog.com",
-      "http://localhost:3000"
-    ],
+    "origins": ["https://myblog.com", "http://localhost:3000"],
     "apis": {
       "weather": {
         "url": "https://api.weatherapi.com/v1/current.json",
@@ -21,10 +18,7 @@
     }
   },
   "myshop": {
-    "origins": [
-      "https://myshop.com",
-      "http://localhost:8080"
-    ],
+    "origins": ["https://myshop.com", "http://localhost:8080"],
     "apis": {
       "stripe": {
         "url": "https://api.stripe.com/v1/payment_intents",

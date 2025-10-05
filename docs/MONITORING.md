@@ -121,6 +121,7 @@ wrangler tail --search "Cache"
 ```
 
 Look for:
+
 - High `Cache HIT` = Good performance ✅
 - High `Cache MISS` = Check cache settings ⚠️
 
@@ -131,6 +132,7 @@ wrangler tail --search "Rate limit"
 ```
 
 If you see many rate limit messages:
+
 - Legitimate traffic spike? Increase limits
 - Attack? Check the IPs and block at Cloudflare level
 
@@ -210,16 +212,19 @@ wrangler tail
 ### Check Response Times
 
 Look for the timing in logs:
+
 ```
 ✓ 200 OK (125ms)  ← First request (API call)
 ✓ 200 OK (5ms)    ← Cached request (fast!)
 ```
 
 **Good:**
+
 - Cache hits: <10ms ✅
 - Cache misses: <200ms ✅
 
 **Needs attention:**
+
 - Cache hits: >50ms ⚠️
 - Cache misses: >500ms ⚠️
 
@@ -238,6 +243,7 @@ wrangler tail --search "Cache"
 ```
 
 **Good cache hit ratio:**
+
 - Weather data: >80% ✅
 - Static content: >90% ✅
 - Real-time data: >50% ✅
@@ -253,6 +259,7 @@ wrangler tail --status error --search "Forbidden"
 ```
 
 **Look for:**
+
 ```
 Blocked request from origin: https://unexpected-site.com
 ```
@@ -266,6 +273,7 @@ wrangler tail --search "Configuration"
 ```
 
 **Look for:**
+
 ```
 Secret MYBLOG_API_KEY not found
 ```
@@ -279,11 +287,13 @@ wrangler tail
 ```
 
 **Look for:**
+
 - High response times (>500ms)
 - Many cache misses
 - External API timeouts
 
 **Fix:**
+
 - Increase cache duration
 - Check external API performance
 - Add timeout handling
@@ -295,11 +305,13 @@ wrangler tail --search "Rate limit"
 ```
 
 **Look for:**
+
 ```
 Rate limit exceeded for 192.168.1.100
 ```
 
 **Fix:**
+
 - Check if IP is legitimate
 - Adjust rate limits if needed
 - Block abusive IPs at Cloudflare level
@@ -350,24 +362,27 @@ done
 ## 📚 Log Messages Reference
 
 ### Info Messages
-| Message | Meaning |
-|---------|---------|
-| `Cache HIT for app/api` | Response served from cache |
-| `Cache MISS for app/api` | Fetched from external API |
+
+| Message                  | Meaning                    |
+| ------------------------ | -------------------------- |
+| `Cache HIT for app/api`  | Response served from cache |
+| `Cache MISS for app/api` | Fetched from external API  |
 
 ### Warning Messages
-| Message | Meaning |
-|---------|---------|
-| `Rate limit exceeded for {ip}` | IP hit rate limit |
+
+| Message                              | Meaning                |
+| ------------------------------------ | ---------------------- |
+| `Rate limit exceeded for {ip}`       | IP hit rate limit      |
 | `Blocked request from origin: {url}` | Origin not whitelisted |
 
 ### Error Messages
-| Message | Meaning |
-|---------|---------|
+
+| Message                   | Meaning               |
+| ------------------------- | --------------------- |
 | `Secret {name} not found` | Missing Worker secret |
-| `Unknown app` | App not in config |
-| `Unknown API endpoint` | API not configured |
-| `Worker error: {msg}` | Internal error |
+| `Unknown app`             | App not in config     |
+| `Unknown API endpoint`    | API not configured    |
+| `Worker error: {msg}`     | Internal error        |
 
 ---
 
@@ -386,6 +401,7 @@ Cloudflare provides powerful analytics for your Worker at **zero cost and zero o
 #### Overview Tab
 
 **Request Metrics (Last 24h/7d/30d):**
+
 ```
 ┌─────────────────────────────────┐
 │ Total Requests      45,230         │
@@ -397,11 +413,13 @@ Cloudflare provides powerful analytics for your Worker at **zero cost and zero o
 ```
 
 **Request Timeline:**
+
 - Interactive graph showing requests over time
 - Hover to see exact numbers
 - Spot traffic spikes or drops
 
 **Status Code Breakdown:**
+
 ```
 200 OK:          44,500 (98.4%)
 429 Rate Limit:     500 (1.1%)
@@ -411,6 +429,7 @@ Cloudflare provides powerful analytics for your Worker at **zero cost and zero o
 ```
 
 **Geographic Distribution:**
+
 - Map showing requests by country
 - Identify where your users are
 - Useful for compliance and CDN optimization
@@ -418,6 +437,7 @@ Cloudflare provides powerful analytics for your Worker at **zero cost and zero o
 #### Performance Tab
 
 **Response Time Distribution:**
+
 ```
 P50 (Median):  45ms  │██████████████████████████████
 P75:           85ms  │█████████████████████████████████████████████
@@ -426,6 +446,7 @@ P99:          520ms  │██████████████████�
 ```
 
 **CPU Time:**
+
 - Average CPU usage per request
 - Helps identify expensive operations
 - Free tier limit: 10ms per request
@@ -433,10 +454,12 @@ P99:          520ms  │██████████████████�
 #### Error Tab
 
 **Error Rate Over Time:**
+
 - Graph showing error trends
 - Filter by status code (403, 404, 429, 500)
 
 **Top Errors:**
+
 ```
 429 Too Many Requests:  500 occurrences
 403 Forbidden:          150 occurrences
@@ -444,6 +467,7 @@ P99:          520ms  │██████████████████�
 ```
 
 **Error Details:**
+
 - Click any error to see:
   - Timestamp
   - Request URL
@@ -458,6 +482,7 @@ P99:          520ms  │██████████████████�
 ### Health Indicators
 
 #### ✅ Healthy Worker
+
 ```
 Success Rate:        >99%
 Avg Response Time:   <200ms
@@ -467,6 +492,7 @@ CPU Time:            <5ms
 ```
 
 #### ⚠️ Needs Attention
+
 ```
 Success Rate:        95-99%
 Avg Response Time:   200-500ms
@@ -476,6 +502,7 @@ CPU Time:            5-8ms
 ```
 
 #### ❌ Critical Issues
+
 ```
 Success Rate:        <95%
 Avg Response Time:   >500ms
@@ -487,66 +514,82 @@ CPU Time:            >8ms
 ### Common Patterns
 
 #### High 429 Errors
+
 **Symptom:**
+
 ```
 429 Rate Limit: 2,000+ per day
 ```
 
 **Diagnosis:**
+
 - Rate limits too strict
 - Traffic spike from legitimate users
 - Potential DDoS attack
 
 **Action:**
+
 1. Check `wrangler tail --search "Rate limit"` for IPs
 2. Increase `RATE_LIMIT.maxRequests` if legitimate
 3. Block abusive IPs at Cloudflare level
 
 #### High 403 Errors
+
 **Symptom:**
+
 ```
 403 Forbidden: 500+ per day
 ```
 
 **Diagnosis:**
+
 - Users accessing from unauthorized domains
 - Missing origin in `origins` array
 - Incorrect CORS configuration
 
 **Action:**
+
 1. Check `wrangler tail --search "Blocked"` for origins
 2. Add legitimate origins to config
 3. Deploy updated Worker
 
 #### Slow Response Times
+
 **Symptom:**
+
 ```
 P95 Response Time: >800ms
 ```
 
 **Diagnosis:**
+
 - Low cache hit rate
 - Slow external API
 - Too many cache misses
 
 **Action:**
+
 1. Check `wrangler tail --search "Cache"` for hit ratio
 2. Increase cache duration if appropriate
 3. Check external API performance
 4. Consider caching more aggressively
 
 #### High CPU Time
+
 **Symptom:**
+
 ```
 Avg CPU Time: >8ms
 ```
 
 **Diagnosis:**
+
 - Complex request processing
 - Large response bodies
 - Inefficient code
 
 **Action:**
+
 1. Profile Worker code
 2. Optimize loops and string operations
 3. Reduce response payload size
@@ -654,6 +697,7 @@ setInterval(async () => {
 ### Daily Monitoring Routine
 
 **Morning Check (5 minutes):**
+
 1. Open Cloudflare Analytics Dashboard
 2. Check success rate (should be >99%)
 3. Review error count (look for spikes)
@@ -661,6 +705,7 @@ setInterval(async () => {
 5. Review geographic distribution (expected?)
 
 **Weekly Review (15 minutes):**
+
 1. Compare week-over-week request volume
 2. Analyze error trends
 3. Check cache hit ratio trends
@@ -668,6 +713,7 @@ setInterval(async () => {
 5. Identify optimization opportunities
 
 **Monthly Analysis (30 minutes):**
+
 1. Download full month data via API
 2. Calculate total costs (if any)
 3. Review growth trends
@@ -679,6 +725,7 @@ setInterval(async () => {
 Cloudflare doesn't have built-in Worker alerts (yet), but you can:
 
 **Option 1: Cloudflare Notifications**
+
 - Dashboard → Notifications
 - Set up alerts for:
   - Account-level issues
@@ -686,11 +733,13 @@ Cloudflare doesn't have built-in Worker alerts (yet), but you can:
   - Security events
 
 **Option 2: External Monitoring**
+
 - Use a service like UptimeRobot (free)
 - Ping your Worker every 5 minutes
 - Get alerts if it's down
 
 **Option 3: Custom Monitoring**
+
 - Query Analytics API periodically
 - Send alerts if metrics exceed thresholds
 - Example: Email if error rate >5%
@@ -700,6 +749,7 @@ Cloudflare doesn't have built-in Worker alerts (yet), but you can:
 ## 🔗 Additional Resources
 
 ### Cloudflare Docs
+
 - [Workers Analytics](https://developers.cloudflare.com/workers/observability/analytics/)
 - [GraphQL Analytics API](https://developers.cloudflare.com/analytics/graphql-api/)
 - [Workers Logs](https://developers.cloudflare.com/workers/observability/logs/)
@@ -707,11 +757,13 @@ Cloudflare doesn't have built-in Worker alerts (yet), but you can:
 ### External Monitoring (Optional)
 
 **Free Options:**
+
 - **UptimeRobot**: Uptime monitoring
 - **Better Stack**: Error tracking (free tier)
 - **Sentry**: Error tracking (free tier)
 
 **Paid Options:**
+
 - **Datadog**: Full observability ($15/month)
 - **New Relic**: APM monitoring ($25/month)
 - **Honeycomb**: Distributed tracing ($20/month)
@@ -742,6 +794,7 @@ Send Worker logs to external services:
 ### 🛠️ Development & Debugging
 
 **Real-time logs (`wrangler tail`):**
+
 ```bash
 # Watch everything
 wrangler tail
@@ -753,6 +806,7 @@ wrangler tail --search "Rate limit" # Rate limiting
 ```
 
 **Best for:**
+
 - Local development
 - Real-time debugging
 - Immediate feedback
@@ -761,11 +815,13 @@ wrangler tail --search "Rate limit" # Rate limiting
 ### 📊 Production Monitoring
 
 **Cloudflare Analytics Dashboard:**
+
 1. Go to [dash.cloudflare.com](https://dash.cloudflare.com)
 2. Workers & Pages → statenv → Analytics
 3. Review metrics daily
 
 **Best for:**
+
 - Historical data
 - Trends analysis
 - Performance metrics
@@ -775,12 +831,14 @@ wrangler tail --search "Rate limit" # Rate limiting
 ### 🤖 Automated Monitoring
 
 **GraphQL Analytics API:**
+
 - Query metrics programmatically
 - Build custom dashboards
 - Set up automated alerts
 - Integrate with existing tools
 
 **Best for:**
+
 - Custom monitoring solutions
 - Alerting systems
 - Compliance reporting
@@ -790,14 +848,14 @@ wrangler tail --search "Rate limit" # Rate limiting
 
 ### 🎯 Quick Reference
 
-| Need | Tool | Command/Link |
-|------|------|-------------|
-| Real-time logs | wrangler tail | `wrangler tail` |
-| Error monitoring | wrangler tail | `wrangler tail --status error` |
-| Cache performance | wrangler tail | `wrangler tail --search Cache` |
-| Historical data | Cloudflare Dashboard | [dash.cloudflare.com](https://dash.cloudflare.com) |
-| Custom metrics | GraphQL API | See Analytics API section |
-| Uptime monitoring | UptimeRobot | [uptimerobot.com](https://uptimerobot.com) |
+| Need              | Tool                 | Command/Link                                       |
+| ----------------- | -------------------- | -------------------------------------------------- |
+| Real-time logs    | wrangler tail        | `wrangler tail`                                    |
+| Error monitoring  | wrangler tail        | `wrangler tail --status error`                     |
+| Cache performance | wrangler tail        | `wrangler tail --search Cache`                     |
+| Historical data   | Cloudflare Dashboard | [dash.cloudflare.com](https://dash.cloudflare.com) |
+| Custom metrics    | GraphQL API          | See Analytics API section                          |
+| Uptime monitoring | UptimeRobot          | [uptimerobot.com](https://uptimerobot.com)         |
 
 ---
 

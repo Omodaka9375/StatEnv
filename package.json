@@ -1,11 +1,35 @@
 {
   "name": "statenv",
   "version": "1.0.0",
-  "description": "Secure Cloudflare Worker API proxy for static apps",
+  "description": "Secure Cloudflare Worker API proxy for your apps",
   "main": "src/index.js",
   "type": "module",
   "bin": {
     "statenv": "./cli/statenv.js"
+  },
+  "files": [
+    "src",
+    "cli",
+    "docs",
+    "tests",
+    "README.md",
+    "LICENSE",
+    "wrangler.toml",
+    "vitest.config.js",
+    "statenv.config.json",
+    ".prettierrc",
+    ".prettierignore"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Omodaka9375/StatEnv.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Omodaka9375/StatEnv/issues"
+  },
+  "homepage": "https://github.com/Omodaka9375/StatEnv#readme",
+  "engines": {
+    "node": ">=18.0.0"
   },
   "scripts": {
     "dev": "wrangler dev",
