@@ -1,9 +1,12 @@
 {
   "name": "statenv",
   "version": "1.0.0",
-  "description": "Secure Cloudflare Worker for environment variable proxy",
+  "description": "Secure Cloudflare Worker API proxy for static apps",
   "main": "src/index.js",
   "type": "module",
+  "bin": {
+    "statenv": "./cli/statenv.js"
+  },
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",

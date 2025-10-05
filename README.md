@@ -38,6 +38,32 @@ const data = await response.json();
 
 ---
 
+## 🧑‍💻 CLI Tool
+
+StatEnv includes an interactive CLI for easy setup and management:
+
+```bash
+# Interactive app configuration wizard
+statenv add-app
+
+# Deploy to Cloudflare
+statenv deploy
+
+# Watch real-time logs
+statenv tail
+
+# Manage secrets
+statenv secrets list
+statenv secrets add
+
+# Run tests
+statenv test
+```
+
+See [cli/README.md](cli/README.md) for complete CLI documentation.
+
+---
+
 ## 🚀 Quick Start
 
 ### 1. Configure API Endpoints
