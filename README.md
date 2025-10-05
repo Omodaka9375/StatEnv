@@ -286,9 +286,6 @@ StaticEnv/
 │   ├── MONITORING.md      ← Complete monitoring guide
 │   └── MONITORING_QUICK_REF.md ← Quick reference
 │
-├── examples/
-│   └── example.html       ← Working demo
-│
 └── tests/
     ├── README.md          ← Test documentation
     └── worker.test.js     ← Integration tests
@@ -385,10 +382,6 @@ wrangler secret put APPNAME_SECRETNAME
 pnpm run deploy
 # or npm run deploy
 ```
-
-### 6. Test
-
-Visit `examples/example.html` (update the Worker URL first) to test the proxy.
 
 ---
 
@@ -689,7 +682,7 @@ const RATE_LIMIT = {
 2. ✅ Set your secrets with `wrangler secret put`
 3. ✅ Deploy with `wrangler deploy`
 4. ✅ Replace hardcoded API keys with `fetch` calls to your Worker
-5. ✅ Test with `examples/example.html`
+5. ✅ Test
 
 ---
 
