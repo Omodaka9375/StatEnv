@@ -1,6 +1,6 @@
 # 🔐 StatEnv - Secure API Proxy for Static Apps
 
-**Keep your API keys on the server where they belong!**
+**Keep your API keys where they belong!**
 
 ---
 
